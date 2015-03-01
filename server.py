@@ -101,7 +101,7 @@ print ("%s clients, %s rounds" % (str(number_of_clients), str(number_of_rounds))
 
 
 srv = Server()
-srv.startServer("172.16.34.74",12345)
+srv.startServer("172.16.34.150",12345)
 srv.connectClients(number_of_clients)
 
 srv.running = True

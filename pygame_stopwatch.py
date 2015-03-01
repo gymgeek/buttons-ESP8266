@@ -47,7 +47,7 @@ class StopWatch():
 
     def __init__(self):
         self.stopwatch_running = False
-        self.start_time = None
+        self.start_time = 0
 
 
 
