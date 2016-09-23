@@ -67,6 +67,6 @@ class Server():
         
         
 srv = Server()
-srv.startServer("192.168.5.101",12345)
+srv.startServer("192.168.0.104",12345)
 srv.connectClients(2)
 srv.playGame(5)

@@ -1,7 +1,14 @@
-import socket
+import socket, machine
 
 class Client():
     s = socket.socket()
+
+    def __init__(self):
+        self.servo = machine.PWM(machine.Pin(12))
+        self.servo.freq(50)
+        self.servo.duty(60)
+        self.btn = machine.Pin(4, machine.Pin.IN, machine.Pin.PULL_UP)
+
     
     def start(self,ip,port):
         if not self.connect(ip,port):
@@ -38,18 +45,23 @@ class Client():
             print("Terminating")
 
     def waitForPress(self):
-        input()
+        val = self.btn.value()
+        while val == self.btn.value():
+            pass
+        
         return True
     
     def showFlag(self):
         print("Showing flag")
+        self.servo.duty(105)
 
     def hideFlag(self):
         print("Hiding flag")
+        self.servo.duty(60)
         
 
-cli = Client()
-cli.start("192.168.5.101",12345)
+#cli = Client()
+#cli.start("192.168.0.104",12345)
 
     
 
