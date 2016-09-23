@@ -10,3 +10,8 @@ Po spuštění serveru příkazem connectClients(počet) připravíme server na 
 Pokud nedojde k připojení zadaného počtu klientů, lze pomocí Ctrl+C připojování přerušit. Pokud byli připojeni alespoň dva, stačí to na hru.
 Příkazem playGame(difficulty, timeout=60) spustíme hru. Parametr difficulty udává, kolik kol (přeběhnutí k jinému stanovišti) bude třeba k dokončení hry.
 Parametr timout udává čas v sekundách, který má hráč pro přeběhnutí k dalšímu tlačítku a zmáčknutí. Výchozí hodnota je 60s. 
+
+Timeout:
+Pro případ, kdy dojde k přerušení hry (ať už neaktivitou hráče či restartu serveru) má funkce playGame() na serveru a start() na clientu parametr timeout.
+Bere čas v sekundách. Pokud po zvednutí vlajky u klienta nedojde v definované době ke zmáčknutí tlačítka, nebo server nedostane odpověď od klienta, hra se přeruší.
+Doporučuji u obou nastavit stejný čas.
