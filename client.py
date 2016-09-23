@@ -60,8 +60,7 @@ class Client():
         self.servo.duty(60)
         
 
-#cli = Client()
-#cli.start("192.168.0.104",12345)
+
 
     
 
