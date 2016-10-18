@@ -12,7 +12,7 @@ class Client():
         self.led.value(1)
 
     
-    def start(self,ip,port,timeout=30):
+    def start(self,ip,port,timeout=10):
         self.timeout = timeout
         if not self.connect(ip,port):
             print("Unable to connect...")
@@ -41,9 +41,7 @@ class Client():
                     print("Terminating...")
                     break
                 self.showFlag()
-                if not self.waitForPress():
-                    self.hideFlag()
-                    continue
+                self.waitForPress()
                 self.hideFlag()
                 s.send(bytes("p","utf8"))
         except KeyboardInterrupt:

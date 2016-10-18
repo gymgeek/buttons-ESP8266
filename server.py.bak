@@ -33,12 +33,12 @@ class Server():
             print("Canceled, currently connected %s clients"%(len(self.clients)))
         self.s.listen(0)
 
-    def playGame(self,difficulty,timeout=40):
+    def playGame(self,difficulty,timeout=15):
         clients = self.clients
         if(len(clients) < 2):
             print("At least 2 clients required to play!")
             return
-        #raw_input("Press enter to start")
+        raw_input("Press enter to start")
         lastClient = None
         clientIndex = 0
         self.stopwatch.startStopWatch()
@@ -59,7 +59,6 @@ class Server():
         self.stopwatch.stopStopWatch()
         finishTime = time.time() - startedTime
         print("Finished in %s seconds" %(finishTime))
-        time.sleep(3)
 
     def waitForClient(self,c,timeout):     
         c.setblocking(0)
@@ -101,8 +100,7 @@ while True:
         srv.s.close()
         srv.stopwatch.stopStopWatch()
         print("closing connections")
-    """answer = raw_input("Do you wanna play again?\n")
+    answer = raw_input("Do you wanna play again?\n")
     if answer.startswith("n"):
         srv.s.close()
         break
-        """

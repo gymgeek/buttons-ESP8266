@@ -5,4 +5,4 @@ while network.WLAN(0).isconnected() == False:
 webrepl.start()
 
 cli = Client()
-cli.start("192.168.0.104",12345)
+cli.start("192.168.0.110",12345)
