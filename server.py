@@ -1,4 +1,4 @@
-import socket, random, time, sys
+import socket, random, time, sys, traceback
 from led_stopwatch import StopWatch
 
 
@@ -111,13 +111,40 @@ while srv.running:
 
         srv.playGame(number_of_rounds)
 
-    except KeyboardInterrupt:
+
+    except:
         srv.running = False
         srv.s.close()
         print("closing connections")
 
         if srv.STOPWATCH_ENABLED:
             srv.stopwatch.stopStopWatch()
+
+    """
+    except KeyboardInterrupt:
+        answer = input("Do you wanna play again?")
+
+        if answer:
+            # Starts new game
+
+            if srv.STOPWATCH_ENABLED:
+                srv.stopwatch.stopStopWatch()
+
+
+        else:
+
+            srv.stopwatch.stopStopWatch()
+            srv.running = False
+            srv.s.close()
+            print("closing connections")
+
+    """
+
+
+
+
+
+
 
 
 
