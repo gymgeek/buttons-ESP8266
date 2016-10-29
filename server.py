@@ -112,7 +112,8 @@ while srv.running:
         srv.playGame(number_of_rounds)
 
 
-    except:
+    except Exception as e:
+        traceback.print_exc(e)
         srv.running = False
         srv.s.close()
         print("closing connections")
