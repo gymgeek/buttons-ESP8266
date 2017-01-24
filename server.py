@@ -1,5 +1,5 @@
 import socket, random, time, sys, traceback
-from led_stopwatch import StopWatch
+from pygame_stopwatch import StopWatch
 
 
 class Server():
