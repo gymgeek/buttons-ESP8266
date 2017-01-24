@@ -7,6 +7,14 @@ height = 0
 width = 0
 fontsize = 0
 
+pygame.init()
+screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+pygame.display.toggle_fullscreen()
+width = screen.get_width()
+height = screen.get_height()
+fontsize = int((width / 8) * 2.5)
+myfont = pygame.font.SysFont(None, int(fontsize))
+
 class StopWatchThread(Thread):
     def __init__(self, stopwatch_instance):
         Thread.__init__(self)
@@ -14,13 +22,7 @@ class StopWatchThread(Thread):
 
 
     def run(self):
-        pygame.init()
-        screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-        pygame.display.toggle_fullscreen()
-        width = screen.get_width()
-        height = screen.get_height()
-        fontsize = int((width / 8) * 2.5)
-        myfont = pygame.font.SysFont(None, int(fontsize))
+
         start_time = self.stopwatch_instance.start_time
         while self.stopwatch_instance.stopwatch_running:
             currtime = time.time() - start_time
@@ -34,7 +36,7 @@ class StopWatchThread(Thread):
             screen.blit(label, (int(fontsize / 4), int((height / 5))))
             pygame.display.flip()
             pygame.event.clear()
-        
+
 
 
 
@@ -58,8 +60,15 @@ class StopWatch():
         countdown_start_time = time.time()
         countdown_from = 5
         while ((time.time() - countdown_start_time) < countdown_from):
-            #self.ledMatrix.writeToMatrix(" " + str(countdown_from - int(time.time() - countdown_start_time)))
-
+            color_step = int(255/countdown_from)
+            text = " " + str(countdown_from - int(time.time() - countdown_start_time))
+            screen.fill((0, 0, 0))
+            r = int(text)*color_step
+            g = 255-int(text)*color_step
+            label = myfont.render(text, False, (r, g, 0))
+            screen.blit(label, (int(width / 3), int((height / 5))))
+            pygame.display.flip()
+            pygame.event.clear()
             time.sleep(0.05)
 
 
