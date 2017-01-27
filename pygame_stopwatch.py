@@ -57,6 +57,8 @@ class StopWatch():
 
     def startStopWatch(self, usb_port=""):
         #Countdown
+
+        """
         countdown_start_time = time.time()
         countdown_from = 5
         while ((time.time() - countdown_start_time) < countdown_from):
@@ -70,6 +72,7 @@ class StopWatch():
             pygame.display.flip()
             pygame.event.clear()
             time.sleep(0.05)
+        """
 
 
         self.stopwatch_thread = StopWatchThread(self)

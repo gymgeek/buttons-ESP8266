@@ -1,10 +1,9 @@
-import socket, random, time, sys, traceback, pickle
+import socket, random, time, sys, traceback
 from pygame_stopwatch import StopWatch
 
 
 IP = "172.16.34.150"
 PORT = 12345
-HIGHSCORE_FILENAME = "highscore.dat"
 
 class Server():
     server_socket = socket.socket()
@@ -19,7 +18,7 @@ class Server():
             self.stopwatch = StopWatch()
 
 
-        #self.highscore = pickle.load()
+
 
     def startServer(self, ip, port):
         self.server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
