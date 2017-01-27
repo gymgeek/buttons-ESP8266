@@ -19,7 +19,7 @@ class Server():
             self.stopwatch = StopWatch()
 
 
-        self.highscore = pickle.load()
+        #self.highscore = pickle.load()
 
     def startServer(self, ip, port):
         self.server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
