@@ -27,10 +27,10 @@ class StopWatchThread(Thread):
         while self.stopwatch_instance.stopwatch_running:
             currtime = time.time() - start_time
 
-
             milisec = int((currtime % 1) * 100)
+            mins = int(currtime/60)
             sec = int(currtime) % 60
-            text = "00:" + ("0" + str(sec))[-2:] + ":" + ("0" + str(milisec))[-2:]
+            text = ("0" + str(mins))[-2:]+":" + ("0" + str(sec))[-2:] + ":" + ("0" + str(milisec))[-2:]
             screen.fill((0, 0, 0))
             label = myfont.render(text, False, (255, 255, 0))
             screen.blit(label, (int(fontsize / 4), int((height / 5))))
