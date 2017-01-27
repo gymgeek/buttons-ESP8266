@@ -1,74 +1,92 @@
 import socket, machine, time
 
+
 class Client():
-    s = socket.socket()
+    server_socket = socket.socket()
 
     def __init__(self):
-        self.servo = machine.PWM(machine.Pin(12))
-        self.servo.freq(50)
-        self.servo.duty(60)
-        self.btn = machine.Pin(4, machine.Pin.IN, machine.Pin.PULL_UP)
-        self.led = machine.Pin(2, machine.Pin.OUT)
-        self.led.value(1)
+        # Servo setup
+        self.servo_pin = machine.PWM(machine.Pin(12))
+        self.servo_pin.freq(50)
+        self.servo_pin.duty(60)
 
-    
-    def start(self,ip,port,timeout=10):
-        self.timeout = timeout
-        if not self.connect(ip,port):
+        # Button setup
+        self.button_pin = machine.Pin(4, machine.Pin.IN, machine.Pin.PULL_UP)
+
+        # Led pin setup
+        self.led_pin = machine.Pin(2, machine.Pin.OUT)
+        self.led_pin.value(1)
+
+    def start(self, ip, port):
+
+        if not self.connect(ip, port):
             print("Unable to connect...")
+            print("Exiting game!")
             return
+
         print("Connected")
         self.gameLoop()
 
-    def connect(self,ip,port):
+    def connect(self, ip, port):
+        # Returns true, if connected properly
+
         try:
-            self.s.connect((ip,port))
+            self.server_socket.connect((ip, port))
         except:
             return False
         return True
-    
+
+
     def gameLoop(self):
         print("Starting game")
-        s = self.s
-        s.setblocking(0)
+        self.server_socket.setblocking(0)
+
+        last_button_value = self.button_pin.value()
         try:
-            while 1:
+            while True:
+                recieve = None
+                # Recieve instructions from server
                 try:
-                    rec = str(s.recv(1),"utf8")
+                    recieve = str(self.server_socket.recv(1), "utf8")
+
                 except:
-                    continue
-                if rec == "q":
-                    print("Terminating...")
-                    break
-                self.showFlag()
-                self.waitForPress()
-                self.hideFlag()
-                s.send(bytes("p","utf8"))
+                    # Nothing was received
+                    pass
+
+                if recieve == "u":
+                    self.showFlag()
+
+
+                elif recieve == "d":
+                    self.hideFlag()
+
+
+                # If button state has changed, sent info to server
+                new_button_value = self.button_pin.value()
+                if last_button_value != new_button_value:
+                    last_button_value = new_button_value
+                    self.server_socket.send(b"p")
+                    print("Button pressed")
+
+
+
+
         except KeyboardInterrupt:
             print("Terminating")
 
-    def waitForPress(self):
-        val = self.btn.value()
-        begin = time.time()
-        while val == self.btn.value():
-            if begin + self.timeout < time.time():
-                return False
-            pass
-        
-        return True
-    
+
     def showFlag(self):
         print("Showing flag")
-        self.servo.duty(105)
-        self.led.value(0)
+        self.servo_pin.duty(105)
+        self.led_pin.value(0)
 
     def hideFlag(self):
         print("Hiding flag")
-        self.servo.duty(60)
-        self.led.value(1)
-        
+        self.servo_pin.duty(60)
+        self.led_pin.value(1)
 
 
 
-    
+
+
 
