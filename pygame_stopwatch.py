@@ -27,10 +27,10 @@ class StopWatchThread(Thread):
         while self.stopwatch_instance.stopwatch_running:
             currtime = time.time() - start_time
 
-
             milisec = int((currtime % 1) * 100)
+            mins = int(currtime/60)
             sec = int(currtime) % 60
-            text = "00:" + ("0" + str(sec))[-2:] + ":" + ("0" + str(milisec))[-2:]
+            text = ("0" + str(mins))[-2:]+":" + ("0" + str(sec))[-2:] + ":" + ("0" + str(milisec))[-2:]
             screen.fill((0, 0, 0))
             label = myfont.render(text, False, (255, 255, 0))
             screen.blit(label, (int(fontsize / 4), int((height / 5))))
@@ -47,7 +47,7 @@ class StopWatch():
 
     def __init__(self):
         self.stopwatch_running = False
-        self.start_time = 0
+        self.start_time = None
 
 
 
@@ -57,6 +57,8 @@ class StopWatch():
 
     def startStopWatch(self, usb_port=""):
         #Countdown
+
+        """
         countdown_start_time = time.time()
         countdown_from = 5
         while ((time.time() - countdown_start_time) < countdown_from):
@@ -70,6 +72,7 @@ class StopWatch():
             pygame.display.flip()
             pygame.event.clear()
             time.sleep(0.05)
+        """
 
 
         self.stopwatch_thread = StopWatchThread(self)
