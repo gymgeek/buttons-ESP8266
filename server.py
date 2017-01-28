@@ -55,6 +55,9 @@ class Server():
             socket.send(b"u")
 
 
+
+
+
     def show_one_flag(self, client_index):
         if client_index >= len(self.clients):
             print("Wrong client index...")
@@ -65,6 +68,10 @@ class Server():
                 socket.send(b"u")
             else:
                 socket.send(b"d")
+
+
+
+
 
     def get_random_client_index(self, last_client_index):
         while True:
@@ -84,7 +91,8 @@ class Server():
     def flush_all_data(self):
         for client_socket, ip in self.clients:
             try:
-                client_socket.recv(10)
+                while True:
+                    client_socket.recv(1)
             except IOError:
                 pass
 
@@ -93,7 +101,6 @@ class Server():
 
 
     def playGame(self, number_of_rounds):
-        number_of_rounds += 1  # First button push is for starting the game
         rounds_left = number_of_rounds
 
         if (len(self.clients) < 2):
@@ -105,7 +112,6 @@ class Server():
 
         while True:
             pushed_button = self.get_client_button_push()
-            print("pushed button " + str(pushed_button))
 
             if pushed_button == client_index:
                 if rounds_left == number_of_rounds:     # First button push, starts stopwatch
@@ -130,6 +136,14 @@ class Server():
                 client_index = self.get_random_client_index(client_index)
                 self.show_one_flag(client_index)
 
+            elif pushed_button == None and rounds_left == number_of_rounds:
+                client_socket = self.clients[client_index][0]
+                client_socket.send(b"m")
+                time.sleep(0.2)
+                client_socket.send(b"l")
+
+
+
 
 
         if self.STOPWATCH_ENABLED:
@@ -144,17 +158,21 @@ class Server():
 
 
     def get_client_button_push(self):
+        timeout = 1.5
+        start_time = time.time()
         while True:
             for client_index, c  in enumerate(self.clients):
                 client_socket = c[0]
                 try:
                     # If this doesn't raise exception, byte was received from client by server
                     client_socket.recv(1)
-                    print("button push " + str(client_index))
                     return client_index
 
                 except IOError:
                     pass
+
+            if time.time() - start_time > timeout:
+                return None
 
 
 
