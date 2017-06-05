@@ -1,9 +1,6 @@
-import socket, random, time, sys, traceback
-from pygame_stopwatch import StopWatch
+import socket, random, time, sys, traceback, argparse
 
 
-IP = "172.16.34.150"
-PORT = 12345
 
 class Server():
     server_socket = socket.socket()
@@ -213,36 +210,44 @@ class Server():
 
 
 
-def parse_cmd_arguments(args):
-    if len(sys.argv) >= 2:
-        number_of_clients = int(sys.argv[1])  # First commandline parameter is number of clients
-    else:
-        number_of_clients = 3
-
-    if len(sys.argv) >= 3:
-        number_of_rounds = int(sys.argv[2])  # Second commandline parameter is number of rounds
-    else:
-        number_of_rounds = 20
-
-    return number_of_clients, number_of_rounds
+def parse_cmd_arguments():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--ip', help='IP of the server', default="localhost")
+    parser.add_argument('--port', help='port on which server will listen', type=int, default="8080")
+    parser.add_argument('--clients', help='Number of clients', type=int, default=3)
+    parser.add_argument('--rounds', help='Number of rounds for one game', type=int, default=10)
 
 
+
+
+
+    return parser.parse_args()
+
+
+
+cmd_args = parse_cmd_arguments()
+
+# if help message was printed, pygame was never initialized, which is what we want
+from pygame_stopwatch import StopWatch
+
+print("IP: ", cmd_args.ip + ":" + str(cmd_args.port))
+print("Number of clients:", cmd_args.clients)
+print("Number of round:", cmd_args.rounds)
 
 
 
 srv = Server()
-srv.startServer(IP, PORT)
+srv.startServer(ip=cmd_args.ip, port=cmd_args.port)
 
-number_of_clients, number_of_rounds = parse_cmd_arguments(sys.argv)
 
-srv.connectClients(number_of_clients)
+srv.connectClients(cmd_args.clients)
 
 running = True
 while running:
 
     try:
 
-        srv.playGame(number_of_rounds)
+        srv.playGame(cmd_args.rounds)
 
     except KeyboardInterrupt:
         traceback.print_exc()
