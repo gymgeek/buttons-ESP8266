@@ -88,6 +88,14 @@ class Server():
             time.sleep(0.3)
 
 
+    def restart_sequence(self):
+        for i in range(2):
+            self.show_all_flags()
+            time.sleep(0.8)
+            self.hide_all_flags()
+            time.sleep(0.8)
+
+
     def flush_all_data(self):
         for client_socket, ip in self.clients:
             try:
@@ -101,6 +109,10 @@ class Server():
 
 
     def playGame(self, number_of_rounds):
+        last_button_pushes = []
+        restart_button_count = 10
+        last_button_push_time = time.time()
+
         rounds_left = number_of_rounds
 
         if (len(self.clients) < 2):
@@ -112,6 +124,31 @@ class Server():
 
         while True:
             pushed_button = self.get_client_button_push()
+
+            if pushed_button != None and time.time() - last_button_push_time > 0.2:
+                last_button_push_time = time.time()
+                # Restarts the game, if one button is pushed 4 times
+                last_button_pushes.append(pushed_button)
+                last_button_pushes = last_button_pushes[-restart_button_count:]
+                first = last_button_pushes[0]
+                print ("Pushed button", pushed_button)
+                print("Last button pushes", last_button_pushes)
+
+                if len(last_button_pushes) == restart_button_count and all(map(lambda x: x == first, last_button_pushes)):      # if one button was pressed 4 times consequently
+                    print("Restart")
+
+                    if self.STOPWATCH_ENABLED:
+                        self.stopwatch.stopStopWatch()
+
+                    self.restart_sequence()
+                    self.flush_all_data()
+
+
+                    return
+
+
+
+
 
             if pushed_button == client_index:
                 if rounds_left == number_of_rounds:     # First button push, starts stopwatch
