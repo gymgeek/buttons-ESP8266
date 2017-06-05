@@ -1,5 +1,7 @@
 import socket, machine, time
 
+<<<<<<< HEAD
+=======
 # Bytes meanings
 flag_up_lights_on = b"u"    # u - Flag up and lights on
 flag_down_lights_off = b"d"   # d - Flag down and lights off
@@ -10,6 +12,7 @@ lights_off = b"m"           # m - lights off
 
 
 
+>>>>>>> 0435b292dbc1e6f7248aef92569fe13641fd4262
 
 class Client():
     server_socket = socket.socket()
@@ -57,12 +60,25 @@ class Client():
                 recieve = None
                 # Recieve instructions from server
                 try:
+<<<<<<< HEAD
+                    recieve = str(self.server_socket.recv(1), "utf8")
+=======
                     recieve = self.server_socket.recv(1)
+>>>>>>> 0435b292dbc1e6f7248aef92569fe13641fd4262
 
                 except:
                     # Nothing was received
                     pass
 
+<<<<<<< HEAD
+                if recieve == "u":
+                    self.showFlag()
+
+
+                elif recieve == "d":
+                    self.hideFlag()
+
+=======
                 if recieve:
                     print(recieve)
 
@@ -86,6 +102,7 @@ class Client():
                 elif recieve == lights_off:
                     self.switch_lights_off()
 
+>>>>>>> 0435b292dbc1e6f7248aef92569fe13641fd4262
 
                 # If button state has changed, sent info to server
                 new_button_value = self.button_pin.value()
@@ -102,6 +119,18 @@ class Client():
 
 
     def showFlag(self):
+<<<<<<< HEAD
+        print("Showing flag")
+        self.servo_pin.duty(105)
+        self.led_pin.value(0)
+
+    def hideFlag(self):
+        print("Hiding flag")
+        self.servo_pin.duty(60)
+        self.led_pin.value(1)
+
+
+=======
         self.servo_pin.duty(105)
 
     def switch_lights_on(self):
@@ -115,6 +144,7 @@ class Client():
 
 
 
+>>>>>>> 0435b292dbc1e6f7248aef92569fe13641fd4262
 
 
 
