@@ -1,6 +1,5 @@
 import socket, machine, time
 
-
 # Bytes meanings
 flag_up_lights_on = b"u"    # u - Flag up and lights on
 flag_down_lights_off = b"d"   # d - Flag down and lights off
@@ -8,6 +7,7 @@ flag_up = b"f"              # f - Flag up
 flag_down = b"c"            # c - Flag down
 lights_on = b"l"            # l - lights on
 lights_off = b"m"           # m - lights off
+
 
 
 
@@ -57,8 +57,6 @@ class Client():
                 recieve = None
                 # Recieve instructions from server
                 try:
-
-                    # recieve = str(self.server_socket.recv(1), "utf8")
                     recieve = self.server_socket.recv(1)
 
                 except:
