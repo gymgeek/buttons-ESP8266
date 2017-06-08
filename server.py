@@ -212,7 +212,7 @@ class Server():
 
 def parse_cmd_arguments():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--ip', help='IP of the server', default="localhost")
+    parser.add_argument('--ip', help='IP of the server', default="0.0.0.0")
     parser.add_argument('--port', help='port on which server will listen', type=int, default="12345")
     parser.add_argument('--clients', help='Number of clients', type=int, default=3)
     parser.add_argument('--rounds', help='Number of rounds for one game', type=int, default=10)
